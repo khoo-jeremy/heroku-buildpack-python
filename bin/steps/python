@@ -109,6 +109,9 @@ if [ "$FRESH_PYTHON" ] || [[ ! $(pip --version) == *$PIP_UPDATE* ]]; then
 
   /app/.heroku/python/bin/python "$ROOT_DIR/vendor/get-pip.py" pip=="$PIP_UPDATE" &> /dev/null
   /app/.heroku/python/bin/pip install "$ROOT_DIR/vendor/setuptools-39.0.1-py2.py3-none-any.whl" &> /dev/null
+  
+  # upgrade setuptools
+  /app/.heroku/python/bin/pip install install --upgrade "setuptools==41.0.1"
 fi
 
 set -e
