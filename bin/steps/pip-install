@@ -42,15 +42,9 @@ if [ ! "$SKIP_PIP_INSTALL" ]; then
         exit 1
     fi
     
-    puts-step "Loading custom env variables"
-    ls $BUILD_DIR
-    source $BUILD_DIR/.heroku-env
-    echo $TEST_VAR
-    echo $SECRET_REPO_URL
-    echo "$(cat "$ENV_DIR/SECRET_REPO_URL")"
-    pip -V
+    puts-step "Loading requirements.txt custom repo url and exporting into pip install"
     
-    export SECRET_REPO_URL=$SECRET_REPO_URL && /app/.heroku/python/bin/pip install -r "$BUILD_DIR/requirements.txt" --exists-action=w --src=/app/.heroku/src --disable-pip-version-check --no-cache-dir 2>&1 | tee "$WARNINGS_LOG" | cleanup | indent
+    export SECRET_REPO_URL="$(cat "$ENV_DIR/SECRET_REPO_URL")" && /app/.heroku/python/bin/pip install -r "$BUILD_DIR/requirements.txt" --exists-action=w --src=/app/.heroku/src --disable-pip-version-check --no-cache-dir 2>&1 | tee "$WARNINGS_LOG" | cleanup | indent
     PIP_STATUS="${PIPESTATUS[0]}"
     set -e
 
